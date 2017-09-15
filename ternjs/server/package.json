@@ -1,0 +1,29 @@
+{
+  "name": "ternjs-server",
+  "version": "0.0.1",
+  "description": "Ternjs Server",
+  "author": "hsiaosiyuan0",
+  "license": "MIT",
+  "dependencies": {
+    "glob": "^7.1.2",
+    "tern": "^0.21.0",
+    "vscode-languageserver": "^3.4.2"
+  },
+  "devDependencies": {
+    "@types/glob": "^5.0.32",
+    "@types/minimatch": "^2.0.29",
+    "@types/mocha": "^2.2.41",
+    "@types/node": "^6.0.41",
+    "@types/semver": "^5.3.30",
+    "mocha": "^3.3.0",
+    "tslint": "^5.0.0",
+    "typescript": "^2.0.3"
+  },
+  "scripts": {
+    "installServer": "installServerIntoExtension ../ternjs ./package.json ./tsconfig.json",
+    "compile": "installServerIntoExtension ../ternjs ./package.json ./tsconfig.json && tsc -p ./src",
+    "watch": "installServerIntoExtension ../ternjs ./package.json ./tsconfig.json && tsc --watch -p ./src",
+    "pretest": "tsc -p ./test",
+    "test": "mocha test/out/test"
+  }
+}

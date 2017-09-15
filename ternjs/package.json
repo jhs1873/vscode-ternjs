@@ -1,0 +1,42 @@
+{
+  "name": "ternjs",
+  "displayName": "Ternjs",
+  "description": "Ternjs for Visual Studio Code",
+  "version": "0.0.1",
+  "publisher": "hsiaosiyuan0",
+  "engines": {
+    "vscode": "^1.16.0"
+  },
+  "categories": [
+    "Languages"
+  ],
+  "activationEvents": [
+    "*"
+  ],
+  "main": "./out/src/extension",
+  "contributes": {
+    "commands": [
+      {
+        "command": "ternjs.generateConfig",
+        "title": "Ternjs: Generate"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "postinstall": "node ./node_modules/vscode/bin/install",
+    "test": "npm run compile && node ./node_modules/vscode/bin/test"
+  },
+  "devDependencies": {
+    "typescript": "^2.5.2",
+    "vscode": "^1.1.5",
+    "mocha": "^3.5.0",
+    "@types/node": "^7.0.43",
+    "@types/mocha": "^2.2.42"
+  },
+  "dependencies": {
+    "vscode-languageclient": "^3.4.2"
+  }
+}

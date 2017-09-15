@@ -1,0 +1,27 @@
+{
+  "version": "0.2.0",
+  // List of configurations. Add new configurations or edit existing ones.
+  "configurations": [
+    {
+      "name": "Launch Client",
+      "type": "extensionHost",
+      "request": "launch",
+      "runtimeExecutable": "${execPath}",
+      "args": ["--extensionDevelopmentPath=${workspaceRoot}/ternjs"],
+      "stopOnEntry": false,
+      "sourceMaps": true,
+      "outFiles": ["${workspaceRoot}/ternjs/out/**/*.js"],
+      "preLaunchTask": "watch:client"
+    },
+    {
+      "name": "Attach to Server",
+      "type": "node",
+      "request": "attach",
+      "port": 5353,
+      "sourceMaps": true,
+      "outFiles": ["${workspaceRoot}/ternjs/server/**/*.js"],
+      "protocol": "inspector",
+      "preLaunchTask": "watch:server"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "name": "vscode-ternjs",
+  "version": "0.0.1",
+  "description": "The umbrella project for the ternjs client and server",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/hsiaosiyuan0/vscode-ternjs.git"
+  },
+  "scripts": {
+    "postinstall":
+      "cd ternjs-server && npm install && cd ../ternjs && npm install && cd ..",
+    "compile":
+      "tsc -p ternjs/tsconfig.json && cd ternjs-server && npm run installServer && cd .. && tsc -p ternjs-server/tsconfig.json",
+    "compile:client": "tsc -p ternjs/tsconfig.json",
+    "watch:client": "tsc -w -p ternjs/tsconfig.json",
+    "compile:server":
+      "cd ternjs-server && npm run installServer && cd .. && tsc -p ternjs-server/tsconfig.json",
+    "watch:server":
+      "cd ternjs-server && npm run installServer && cd .. && tsc -w -p ternjs-server/tsconfig.json"
+  },
+  "author": "hsiaosiyuan0",
+  "license": "MIT"
+}
