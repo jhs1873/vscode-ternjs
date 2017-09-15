@@ -5,7 +5,7 @@ Integrates [ternjs](http://ternjs.net/) into VSCode
 ## Features
 
 VSCode's builtin javascript supporting such as auto-completion goto-definition work fine in most cases, but in some other cases
-the results of ternjs are better.So this extension brings ternjs into VSCode.
+the results of ternjs are better. So this extension brings ternjs into VSCode.
 
 ## Extension Settings
 

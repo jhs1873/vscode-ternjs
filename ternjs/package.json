@@ -2,7 +2,7 @@
   "name": "ternjs",
   "displayName": "Ternjs",
   "description": "Ternjs for Visual Studio Code",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "publisher": "hsiaosiyuan0",
   "icon": "ternjs_icon.png",
   "engines": {
@@ -39,5 +39,22 @@
   },
   "dependencies": {
     "vscode-languageclient": "^3.4.2"
-  }
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/hsiaosiyuan0/vscode-ternjs.git"
+  },
+  "keywords": [
+    "vscode",
+    "ternjs"
+  ],
+  "author": "hsiaosiyuan0",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hsiaosiyuan0/vscode-ternjs/issues"
+  },
+  "homepage": "https://github.com/hsiaosiyuan0/vscode-ternjs#readme"
 }
