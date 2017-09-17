@@ -2,7 +2,7 @@
   "name": "ternjs",
   "displayName": "Ternjs",
   "description": "Ternjs for Visual Studio Code",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "publisher": "hsiaosiyuan0",
   "icon": "ternjs_icon.png",
   "engines": {
