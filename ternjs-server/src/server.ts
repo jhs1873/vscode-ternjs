@@ -3,7 +3,8 @@ import {
   IPCMessageWriter,
   createConnection,
   IConnection,
-  TextDocuments
+  TextDocuments,
+  MarkedString
 } from "vscode-languageserver";
 
 import Uri from "vscode-uri";
@@ -18,22 +19,23 @@ const connection: IConnection = createConnection(
 const documents: TextDocuments = new TextDocuments();
 documents.listen(connection);
 
-let workspaceRoot: string;
-let ternSrv: Ternjs;
+let workspaceRoot: string | null = null;
+let ternSrv: Ternjs | null = null;
 
 connection.onInitialize(params => {
   workspaceRoot = params.rootPath;
-  ternSrv = new Ternjs(workspaceRoot);
-
+  if (workspaceRoot !== null) ternSrv = new Ternjs(workspaceRoot);
   return {
     capabilities: {
       textDocumentSync: documents.syncKind,
-      definitionProvider: true
+      definitionProvider: true,
+      hoverProvider: true
     }
   };
 });
 
 connection.onDefinition(async params => {
+  if (ternSrv === null) return;
   const file = Uri.parse(params.textDocument.uri).path;
   const loc = { line: params.position.line, ch: params.position.character };
   const def = await ternSrv.definition(file, loc);
@@ -48,6 +50,23 @@ connection.onDefinition(async params => {
     };
   }
   return [] as any;
+});
+
+connection.onHover(async params => {
+  if (ternSrv === null) return;
+  const file = Uri.parse(params.textDocument.uri).path;
+  const loc = { line: params.position.line, ch: params.position.character };
+  const typ = await ternSrv.type(file, loc);
+  const doc = await ternSrv.doc(file, loc);
+  const hoverTexts: MarkedString[] = [];
+  // if type cannot be inferred or it is guessed then just discard it
+  if (typ.type !== "?" && !typ.guess) {
+    hoverTexts.push({ language: "javascript", value: typ.type });
+  }
+  if (doc.doc) {
+    hoverTexts.push({ language: "plaintext", value: doc.doc });
+  }
+  return hoverTexts.length ? { contents: hoverTexts } : [] as any;
 });
 
 connection.listen();

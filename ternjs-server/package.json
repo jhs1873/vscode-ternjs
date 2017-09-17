@@ -22,8 +22,8 @@
   },
   "scripts": {
     "installServer": "installServerIntoExtension ../ternjs ./package.json ./tsconfig.json",
-    "compile": "installServerIntoExtension ../ternjs ./package.json ./tsconfig.json && tsc -p ./src",
-    "watch": "installServerIntoExtension ../ternjs ./package.json ./tsconfig.json && tsc --watch -p ./src",
+    "compile": "installServerIntoExtension ../ternjs ./package.json ./tsconfig.json && tsc -p .",
+    "watch": "installServerIntoExtension ../ternjs ./package.json ./tsconfig.json && tsc --watch -p .",
     "pretest": "tsc -p ./test",
     "test": "mocha test/out/test"
   }

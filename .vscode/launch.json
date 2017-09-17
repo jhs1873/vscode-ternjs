@@ -17,7 +17,7 @@
       "name": "Attach to Server",
       "type": "node",
       "request": "attach",
-      "port": 5353,
+      "port": 53535,
       "sourceMaps": true,
       "outFiles": ["${workspaceRoot}/ternjs/server/**/*.js"],
       "protocol": "inspector",

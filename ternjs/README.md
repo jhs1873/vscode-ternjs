@@ -1,21 +1,15 @@
 # vscode-ternjs
 
-Integrates [ternjs](http://ternjs.net/) into VSCode
+Integrates [ternjs](http://ternjs.net/) into VSCode, it will work together with VSCode's builtin JavaScript language supports.
 
 ## Features
 
-VSCode's builtin javascript supporting such as auto-completion goto-definition work fine in most cases, but in some other cases
-the results of ternjs are better. So this extension brings ternjs into VSCode.
+* Goto definition.
+* Hover to show type and document.
 
 ## Extension Settings
 
-You need to provide a config file named `.tern-project` under to root of your workspace, you can generate a default one by using the command `ternjs.generateConfig` - just use shortcut `⇧⌘P` to open command palette and then type the command.
-
-## Release Notes
-
-### 0.0.1
-
-Supports goto definition.
+You need to provide a config file named `.tern-project` under the root of your workspace, you can generate a default one by using the command `ternjs.generateConfig` - just use shortcut `⇧⌘P` to open command palette and then type the command.
 
 -----------------------------------------------------------------------------------------------------------
 

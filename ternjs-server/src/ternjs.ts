@@ -13,7 +13,10 @@ const defaultCfg: any = {
   loadEagerly: [],
   dontLoad: [],
   plugins: {
-    doc_comment: true
+    doc_comment: {
+      fullDocs: true,
+      strong: true
+    }
   }
 };
 
@@ -22,16 +25,28 @@ export interface Loc {
   ch: number;
 }
 
-export interface Definition {
+export interface TernjsResult {
+  doc?: string;
+  url?: string;
+  origin?: string;
+}
+
+export interface Definition extends TernjsResult {
   start?: Loc;
   end?: Loc;
   file?: string;
   context?: string;
   contextOffset?: string;
-  doc?: string;
-  url?: string;
-  origin?: string;
 }
+
+export interface TypeInference extends TernjsResult {
+  type?: string;
+  guess?: boolean;
+  name?: string;
+  exprName?: string;
+}
+
+export interface Document extends TernjsResult {}
 
 export class Ternjs {
   private srv: any;
@@ -47,6 +62,12 @@ export class Ternjs {
     this.initialize();
   }
 
+  private projRelativeFile(file: string) {
+    const abs = path.resolve(this.projDir, file);
+    file = path.relative(this.projDir, abs);
+    return file;
+  }
+
   async request(doc: any) {
     return new Promise<any>((resolve, reject) => {
       this.srv.request(doc, (err: Error, data: any) => {
@@ -60,12 +81,35 @@ export class Ternjs {
   }
 
   async definition(file: string, end: Loc): Promise<Definition> {
-    const abs = path.resolve(this.projDir, file);
-    file = path.relative(this.projDir, abs);
+    file = this.projRelativeFile(file);
     return await this.request({
       query: {
         type: "definition",
         lineCharPositions: true,
+        file,
+        end
+      }
+    });
+  }
+
+  async type(file: string, end: Loc): Promise<TypeInference> {
+    file = this.projRelativeFile(file);
+    return await this.request({
+      query: {
+        type: "type",
+        lineCharPositions: true,
+        preferFunction: true,
+        file,
+        end
+      }
+    });
+  }
+
+  async doc(file: string, end: Loc): Promise<Document> {
+    file = this.projRelativeFile(file);
+    return await this.request({
+      query: {
+        type: "documentation",
         file,
         end
       }
@@ -89,8 +133,21 @@ export class Ternjs {
     });
   }
 
+  // temporarily only supports plugins which are ternjs self-contained
+  private loadPlugins() {
+    const plugins = this.cfg.plugins;
+    return Object.keys(plugins).reduce((opts: any, name) => {
+      const found = require.resolve(`tern/plugin/${name}.js`);
+      const mod = require(found);
+      if (mod.hasOwnProperty("initialize")) mod.initialize(this.projDir);
+      opts[name] = plugins[name];
+      return opts;
+    }, {});
+  }
+
   private initialize() {
     this.mergeProjCfg();
+    this.loadPlugins();
 
     Object.assign(this.cfg, {
       getFile: (name: string, c: any) => {

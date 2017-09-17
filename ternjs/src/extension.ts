@@ -21,7 +21,7 @@ const registerCommand = (
 
 const setupServer = (ctx: ExtensionContext) => {
   const serverModule = ctx.asAbsolutePath(path.join("server", "server.js"));
-  const debugOptions = { execArgv: ["--inspect", "--debug=5353"] };
+  const debugOptions = { execArgv: ["--inspect", "--debug=53535"] };
 
   const serverOptions: ServerOptions = {
     run: { module: serverModule, transport: TransportKind.ipc },
