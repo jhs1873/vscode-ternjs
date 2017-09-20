@@ -56,16 +56,18 @@ connection.onHover(async params => {
   if (ternSrv === null) return;
   const file = Uri.parse(params.textDocument.uri).path;
   const loc = { line: params.position.line, ch: params.position.character };
-  const typ = await ternSrv.type(file, loc);
-  const doc = await ternSrv.doc(file, loc);
   const hoverTexts: MarkedString[] = [];
-  // if type cannot be inferred or it is guessed then just discard it
-  if (typ.type !== "?" && !typ.guess) {
-    hoverTexts.push({ language: "javascript", value: typ.type });
-  }
-  if (doc.doc) {
-    hoverTexts.push({ language: "plaintext", value: doc.doc });
-  }
+  try {
+    const typ = await ternSrv.type(file, loc);
+    const doc = await ternSrv.doc(file, loc);
+    // if type cannot be inferred or it is guessed then just discard it
+    if (typ.type !== "?" && !typ.guess) {
+      hoverTexts.push({ language: "javascript", value: typ.type });
+    }
+    if (doc.doc) {
+      hoverTexts.push({ language: "plaintext", value: doc.doc });
+    }
+  } catch (e) {}
   return hoverTexts.length ? { contents: hoverTexts } : [] as any;
 });
 
